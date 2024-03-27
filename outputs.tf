@@ -1,5 +1,10 @@
 output "runner" {
-  value = {}
+  value = {
+    id = azurerm_user_assigned_identity.runner.id
+    tenant_id = azurerm_user_assigned_identity.runner.tenant_id
+    client_id = azurerm_user_assigned_identity.runner.client_id
+    principal_id = azurerm_user_assigned_identity.runner.principal_id
+  }
 }
 
 output "vpn" {

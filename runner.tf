@@ -15,14 +15,14 @@ resource "azurerm_role_definition" "runner" {
   ]
 }
 
-resource "azurerm_user_assigned_identity" "managed_identity" {
+resource "azurerm_user_assigned_identity" "runner" {
   name                = "${var.nuon_id}-runner"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-resource "azurerm_role_assignment" "assign_identity_storage_blob_data_contributor" {
+resource "azurerm_role_assignment" "role_assignment" {
   scope                = data.azurerm_subscription.main.id
   role_definition_name = azurerm_role_definition.runner.name
-  principal_id         = azurerm_user_assigned_identity.managed_identity.principal_id
+  principal_id         = azurerm_user_assigned_identity.runner.principal_id
 }

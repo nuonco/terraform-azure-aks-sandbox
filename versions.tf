@@ -1,5 +1,4 @@
 terraform {
-  // TODO: uncomment when done testing
   backend "s3" {}
 
   required_providers {

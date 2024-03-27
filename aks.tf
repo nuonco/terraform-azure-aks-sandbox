@@ -1,3 +1,7 @@
+locals {
+  runner_vm_size = "Standard_D2s_v3"
+}
+
 module "aks" {
   source = "Azure/aks/azurerm"
 
@@ -48,6 +52,23 @@ module "aks" {
   vnet_subnet_id                                  = module.network.vnet_subnets[0]
   attached_acr_id_map = {
     "${azurerm_container_registry.acr.name}" = azurerm_container_registry.acr.id
+  }
+
+  node_pools = {
+    "runner" = {
+      name = "runner"
+      vm_size = local.runner_vm_size
+      node_count = 1
+      vnet_subnet_id = module.network.vnet_subnets[0]
+      create_before_destroy = true
+    }
+    "default" = {
+      name = "default"
+      vm_size = var.vm_size
+      node_count = var.node_count
+      vnet_subnet_id = module.network.vnet_subnets[0]
+      create_before_destroy = true
+    }
   }
 
   depends_on = [

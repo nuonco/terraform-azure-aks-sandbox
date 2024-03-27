@@ -13,6 +13,13 @@ variable "location" {
   description = "The location to launch the cluster in"
 }
 
+variable "access_group_users" {
+  type = list(string)
+  default = ["jon@nuon.co"]
+  description = "List of emails that will have access to the install"
+}
+
+
 // NOTE: if you would like to create an internal load balancer, with TLS, you will have to use the public domain.
 variable "internal_root_domain" {
   type        = string

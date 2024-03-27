@@ -21,10 +21,12 @@ module "network" {
   subnet_names        = local.subnet_names
 
   subnet_service_endpoints = {
-    "subnet1" : ["Microsoft.Sql"],
-    "subnet2" : ["Microsoft.Sql"],
-    "subnet3" : ["Microsoft.Sql"]
+    (local.subnet_names[2]) : ["Microsoft.Storage", "Microsoft.Sql"],
   }
+  subnet_enforce_private_link_endpoint_network_policies = {
+    (local.subnet_names[2]) : true
+  }
+
   use_for_each = true
   tags = {
     environment = "dev"
@@ -33,10 +35,3 @@ module "network" {
 
   depends_on = [azurerm_resource_group.rg]
 }
-
-#resource "azurerm_subnet" "appgw" {
-  #address_prefixes     = [local.appgw_cidr]
-  #name                 = "${var.nuon_id}-gw"
-  #resource_group_name = azurerm_resource_group.rg.name
-  #virtual_network_name = module.network.vnet_name
-#}

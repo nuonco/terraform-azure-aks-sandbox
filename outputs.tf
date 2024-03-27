@@ -9,6 +9,31 @@ output "vpn" {
   }
 }
 
+output "public_domain" {
+  value = {
+    nameservers = azurerm_dns_zone.public.name_servers
+    name = azurerm_dns_zone.public.name
+    id = azurerm_dns_zone.public.id
+  }
+}
+
+output "internal_domain" {
+  value = {
+    nameservers = []
+    name = azurerm_private_dns_zone.internal.name
+    id = azurerm_private_dns_zone.internal.id
+  }
+}
+
+output "account" {
+  value = {
+    "location" = var.location
+    "subscription_id" = data.azurerm_client_config.current.subscription_id
+    "client_id" = data.azurerm_client_config.current.client_id
+    "resource_group_name" = azurerm_resource_group.rg.name
+  }
+}
+
 output "acr" {
   value = {
     id = azurerm_container_registry.acr.id

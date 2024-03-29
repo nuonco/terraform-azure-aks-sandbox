@@ -14,21 +14,21 @@ variable "location" {
 }
 
 variable "access_group_users" {
-  type = list(string)
-  default = ["jon@nuon.co"]
-  description = "List of emails that will have access to the install"
+  type        = list(string)
+  default     = ["jon@nuon.co"]
+  description = "List of emails that will have access to the install."
 }
 
 
 // NOTE: if you would like to create an internal load balancer, with TLS, you will have to use the public domain.
 variable "internal_root_domain" {
   type        = string
-  description = "internal root domain."
+  description = "The internal root domain."
 }
 
 variable "public_root_domain" {
   type        = string
-  description = "public root domain."
+  description = "The public root domain."
 }
 
 // cluster configuration
@@ -47,7 +47,7 @@ variable "cluster_version" {
 variable "vm_size" {
   type        = string
   default     = "Standard_D2_v2"
-  description = "The image size"
+  description = "The image size."
 }
 
 variable "node_count" {

@@ -6,10 +6,10 @@ module "aks" {
   source = "Azure/aks/azurerm"
 
   prefix                    = var.nuon_id
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name       = azurerm_resource_group.rg.name
   kubernetes_version        = var.cluster_version
   automatic_channel_upgrade = "patch"
-  agents_availability_zones = ["1", "2"]
+  agents_availability_zones = length(local.azs) > 0 ? local.azs : null
   agents_count              = null
   agents_max_count          = 2
   agents_max_pods           = 100
@@ -61,17 +61,17 @@ module "aks" {
 
   node_pools = {
     "runner" = {
-      name = "runner"
-      vm_size = local.runner_vm_size
-      node_count = 1
-      vnet_subnet_id = module.network.vnet_subnets[0]
+      name                  = "runner"
+      vm_size               = local.runner_vm_size
+      node_count            = 1
+      vnet_subnet_id        = module.network.vnet_subnets[0]
       create_before_destroy = true
     }
     "default" = {
-      name = "default"
-      vm_size = var.vm_size
-      node_count = var.node_count
-      vnet_subnet_id = module.network.vnet_subnets[0]
+      name                  = "default"
+      vm_size               = var.vm_size
+      node_count            = var.node_count
+      vnet_subnet_id        = module.network.vnet_subnets[0]
       create_before_destroy = true
     }
   }

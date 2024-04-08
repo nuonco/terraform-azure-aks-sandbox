@@ -2,7 +2,7 @@ locals {
   // we create a network with two address spaces - one for node pool subnets and one for services, gateways etc.
   address_spaces = ["10.0.0.0/16", "10.2.0.0/16"]
   // node pool subnets
-  subnet_cidrs = ["10.0.1.0/23"]
+  subnet_cidrs = ["10.0.0.0/23"]
   subnet_names = ["a"]
 
   // app and services

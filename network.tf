@@ -2,8 +2,8 @@ locals {
   // we create a network with two address spaces - one for node pool subnets and one for services, gateways etc.
   address_spaces = ["10.0.0.0/16", "10.2.0.0/16"]
   // node pool subnets
-  subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  subnet_names = ["a", "b", "c"]
+  subnet_cidrs = ["10.0.1.0/23"]
+  subnet_names = ["a"]
 
   // app and services
   appgw_cidr     = "10.2.0.0/24"
@@ -21,10 +21,10 @@ module "network" {
   subnet_names    = local.subnet_names
 
   subnet_service_endpoints = {
-    (local.subnet_names[2]) : ["Microsoft.Storage", "Microsoft.Sql"],
+    (local.subnet_names[0]) : ["Microsoft.Storage", "Microsoft.Sql"],
   }
   subnet_enforce_private_link_endpoint_network_policies = {
-    (local.subnet_names[2]) : true
+    (local.subnet_names[0]) : true
   }
 
   use_for_each = true

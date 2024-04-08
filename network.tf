@@ -6,8 +6,8 @@ locals {
   subnet_names = ["a", "b", "c"]
 
   // app and services
-  appgw_cidr = "10.2.0.0/24"
-  service_cidr = "10.2.1.0/24"
+  appgw_cidr     = "10.2.0.0/24"
+  service_cidr   = "10.2.1.0/24"
   dns_service_ip = "10.2.1.10"
 }
 
@@ -17,8 +17,8 @@ module "network" {
   address_spaces      = local.address_spaces
 
   // we create three subnets - one for the nodes, one for ingresses and one for pods
-  subnet_prefixes     = local.subnet_cidrs
-  subnet_names        = local.subnet_names
+  subnet_prefixes = local.subnet_cidrs
+  subnet_names    = local.subnet_names
 
   subnet_service_endpoints = {
     (local.subnet_names[2]) : ["Microsoft.Storage", "Microsoft.Sql"],

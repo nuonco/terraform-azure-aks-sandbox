@@ -113,27 +113,9 @@ variable "db_subnet_delegations" {
 
   default = [
     {
-      name = "sql"
-      service_delegation = {
-        name = "Microsoft.Sql/servers"
-        actions = [
-          "Microsoft.Network/virtualNetworks/subnets/join/action"
-        ]
-      }
-    },
-    {
       name = "postgresql"
       service_delegation = {
         name = "Microsoft.DBforPostgreSQL/flexibleServers"
-        actions = [
-          "Microsoft.Network/virtualNetworks/subnets/join/action"
-        ]
-      }
-    },
-    {
-      name = "mysql"
-      service_delegation = {
-        name = "Microsoft.DBforMySQL/flexibleServers"
         actions = [
           "Microsoft.Network/virtualNetworks/subnets/join/action"
         ]

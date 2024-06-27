@@ -79,5 +79,6 @@ module "aks" {
 
   depends_on = [
     module.network,
+    azurerm_user_assigned_identity.runner
   ]
 }

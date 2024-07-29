@@ -55,11 +55,6 @@ module "aks" {
     "${azurerm_container_registry.acr.name}" = azurerm_container_registry.acr.id
   }
 
-  identity_ids = [
-    azurerm_user_assigned_identity.runner.id
-  ]
-  identity_type = "UserAssigned"
-
   node_pools = {
     "runner" = {
       name                  = "runner"

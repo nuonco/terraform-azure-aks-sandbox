@@ -34,13 +34,13 @@ module "aks" {
 
   green_field_application_gateway_for_ingress = {
     name        = "ingress"
-    subnet_cidr = local.appgw_cidr
+    subnet_cidr = module.network.appgw_cidr
   }
   create_role_assignments_for_application_gateway = true
   local_account_disabled                          = false
   log_analytics_workspace_enabled                 = false
-  net_profile_dns_service_ip                      = local.dns_service_ip
-  net_profile_service_cidr                        = local.service_cidr
+  net_profile_dns_service_ip                      = module.network.dns_service_ip
+  net_profile_service_cidr                        = module.network.service_cidr
   network_plugin                                  = "azure"
   network_policy                                  = "azure"
   os_disk_size_gb                                 = 60

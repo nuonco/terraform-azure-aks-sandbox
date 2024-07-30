@@ -60,3 +60,59 @@ variable "username" {
   description = "The admin username for the new cluster."
   default     = "azureadmin"
 }
+
+variable "template" {
+  type        = string
+  description = "What template to use."
+  default     = "fully_managed_single_subnet"
+  validation {
+    condition     = contains(["fully_managed_single_subnet", "fully_managed_multiple_subnets"], var.template)
+    error_message = "${var.template} is not a valid template name."
+  }
+}
+
+variable "a_subnet_delegations" {
+  type = list(object({
+    name = string
+    service_delegation = object({
+      name    = string
+      actions = list(string)
+    })
+  }))
+
+  default = []
+}
+
+variable "b_subnet_delegations" {
+  type = list(object({
+    name = string
+    service_delegation = object({
+      name    = string
+      actions = list(string)
+    })
+  }))
+
+  default = []
+}
+
+variable "db_subnet_delegations" {
+  type = list(object({
+    name = string
+    service_delegation = object({
+      name    = string
+      actions = list(string)
+    })
+  }))
+
+  default = [
+    {
+      name = "postgresql"
+      service_delegation = {
+        name = "Microsoft.DBforPostgreSQL/flexibleServers"
+        actions = [
+          "Microsoft.Network/virtualNetworks/subnets/join/action"
+        ]
+      }
+    }
+  ]
+}

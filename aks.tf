@@ -3,7 +3,8 @@ locals {
 }
 
 module "aks" {
-  source = "Azure/aks/azurerm"
+  source  = "Azure/aks/azurerm"
+  version = "~> 9.1.0"
 
   prefix                    = var.nuon_id
   resource_group_name       = azurerm_resource_group.rg.name

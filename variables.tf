@@ -36,3 +36,9 @@ variable "node_count" {
   default     = 2
   description = "The minimum number of nodes in the managed node pool."
 }
+
+variable "tags" {
+  type        = string
+  default     = "{}"
+  description = "Tags to add to all resources."
+}

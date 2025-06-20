@@ -50,7 +50,7 @@ module "aks" {
   rbac_aad_managed                                = true
   role_based_access_control_enabled               = true
   sku_tier                                        = "Standard"
-  vnet_subnet_id                                  = module.network.vnet_subnets[0]
+  vnet_subnet_id                                  = data.azurerm_subnet.existing.id
   temporary_name_for_rotation                     = "${substr(var.nuon_id, 1, 7)}temp"
   attached_acr_id_map = {
     "${azurerm_container_registry.acr.name}" = azurerm_container_registry.acr.id
@@ -61,20 +61,19 @@ module "aks" {
       name                  = "runner"
       vm_size               = local.runner_vm_size
       node_count            = 1
-      vnet_subnet_id        = module.network.vnet_subnets[0]
+      vnet_subnet_id        = data.azurerm_subnet.existing.id
       create_before_destroy = true
     }
     "default" = {
       name                  = "default"
       vm_size               = var.vm_size
       node_count            = var.node_count
-      vnet_subnet_id        = module.network.vnet_subnets[0]
+      vnet_subnet_id        = data.azurerm_subnet.existing.id
       create_before_destroy = true
     }
   }
 
   depends_on = [
-    module.network,
     azurerm_user_assigned_identity.runner
   ]
 }

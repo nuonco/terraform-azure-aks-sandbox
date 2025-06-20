@@ -10,8 +10,8 @@ output "runner" {
 
 output "vpn" {
   value = {
-    name       = module.network.vnet_name
-    subnet_ids = module.network.vnet_subnets
+    name       = data.azurerm_virtual_network.existing.name
+    subnet_ids = [data.azurerm_subnet.existing.id]
   }
   description = "A map of vpn attributes: name, subnet_ids."
 }

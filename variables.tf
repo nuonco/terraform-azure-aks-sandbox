@@ -36,3 +36,18 @@ variable "node_count" {
   default     = 2
   description = "The minimum number of nodes in the managed node pool."
 }
+
+variable "vnet_name" {
+  type        = string
+  description = "The name of the existing Virtual Network created by Bicep."
+}
+
+variable "vnet_resource_group_name" {
+  type        = string
+  description = "The resource group name where the existing Virtual Network is located."
+}
+
+variable "subnet_name" {
+  type        = string
+  description = "The name of the existing subnet in the Virtual Network."
+}

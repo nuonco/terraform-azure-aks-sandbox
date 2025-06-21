@@ -1,13 +1,3 @@
-output "runner" {
-  value = {
-    id           = azurerm_user_assigned_identity.runner.id
-    tenant_id    = azurerm_user_assigned_identity.runner.tenant_id
-    client_id    = azurerm_user_assigned_identity.runner.client_id
-    principal_id = azurerm_user_assigned_identity.runner.principal_id
-  }
-  description = "A map of runner attributes: id, tenant_id, client_id, principal_id."
-}
-
 output "vpn" {
   value = {
     name       = data.azurerm_virtual_network.existing.name
@@ -39,7 +29,7 @@ output "account" {
     "location"            = var.location
     "subscription_id"     = data.azurerm_client_config.current.subscription_id
     "client_id"           = data.azurerm_client_config.current.client_id
-    "resource_group_name" = azurerm_resource_group.rg.name
+    "resource_group_name" = data.azurerm_resource_group.rg.name
   }
   description = "A map of Azure account attributes: location, subscription_id, client_id, resource_group_name."
 }
@@ -49,8 +39,6 @@ output "acr" {
     id           = azurerm_container_registry.acr.id
     name         = azurerm_container_registry.acr.name
     login_server = azurerm_container_registry.acr.login_server
-    token_id     = azurerm_container_registry_token.runner.id
-    password     = nonsensitive(azurerm_container_registry_token_password.runner.password1[0].value)
   }
   description = "A map of ACR attributes: id, login_server, token_id, password."
 }

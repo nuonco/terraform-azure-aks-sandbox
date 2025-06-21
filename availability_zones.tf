@@ -3,7 +3,7 @@ locals {
 }
 
 module "regions" {
-  source                   = "Azure/regions/azurerm"
-  version                  = "0.5.2"
-  recommended_regions_only = false
+  source  = "Azure/avm-utl-regions/azurerm"
+  version = "0.5.2"
+  # recommended_regions_only = false
 }

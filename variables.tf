@@ -42,7 +42,7 @@ variable "vnet_name" {
   description = "The name of the existing Virtual Network created by Bicep."
 }
 
-variable "vnet_resource_group_name" {
+variable "resource_group_name" {
   type        = string
   description = "The resource group name where the existing Virtual Network is located."
 }

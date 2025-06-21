@@ -1,13 +1,10 @@
-locals {
-  runner_vm_size = "Standard_D2s_v3"
-}
-
 module "aks" {
-  source  = "Azure/aks/azurerm"
-  version = "~> 9.1.0"
+  source  = "Azure/aks/azurerm//v4"
+  version = "~> 10.1.0"
 
+  location                  = var.location
   prefix                    = var.nuon_id
-  resource_group_name       = azurerm_resource_group.rg.name
+  resource_group_name       = data.azurerm_resource_group.rg.name
   kubernetes_version        = var.cluster_version
   automatic_channel_upgrade = "patch"
   agents_availability_zones = length(local.azs) > 0 ? local.azs : null
@@ -47,23 +44,16 @@ module "aks" {
   os_disk_size_gb                                 = 60
   private_cluster_enabled                         = false
   rbac_aad                                        = true
-  rbac_aad_managed                                = true
-  role_based_access_control_enabled               = true
-  sku_tier                                        = "Standard"
-  vnet_subnet_id                                  = data.azurerm_subnet.existing.id
-  temporary_name_for_rotation                     = "${substr(var.nuon_id, 1, 7)}temp"
+  # rbac_aad_managed                                = true
+  role_based_access_control_enabled = true
+  sku_tier                          = "Standard"
+  # vnet_subnet_id                    = data.azurerm_subnet.existing.id
+  temporary_name_for_rotation = "${substr(var.nuon_id, 1, 7)}temp"
   attached_acr_id_map = {
     "${azurerm_container_registry.acr.name}" = azurerm_container_registry.acr.id
   }
 
   node_pools = {
-    "runner" = {
-      name                  = "runner"
-      vm_size               = local.runner_vm_size
-      node_count            = 1
-      vnet_subnet_id        = data.azurerm_subnet.existing.id
-      create_before_destroy = true
-    }
     "default" = {
       name                  = "default"
       vm_size               = var.vm_size
@@ -72,8 +62,4 @@ module "aks" {
       create_before_destroy = true
     }
   }
-
-  depends_on = [
-    azurerm_user_assigned_identity.runner
-  ]
 }

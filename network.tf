@@ -13,7 +13,7 @@ data "azurerm_virtual_network" "existing" {
 
 // Data source to reference existing subnet
 data "azurerm_subnet" "existing" {
-  name                 = var.subnet_name
+  name                 = local.private_subnet_name_list[0]
   virtual_network_name = data.azurerm_virtual_network.existing.name
   resource_group_name  = var.vnet_resource_group_name
 }

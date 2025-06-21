@@ -47,7 +47,12 @@ variable "vnet_resource_group_name" {
   description = "The resource group name where the existing Virtual Network is located."
 }
 
-variable "subnet_name" {
+variable "private_subnet_names" {
   type        = string
-  description = "The name of the existing subnet in the Virtual Network."
+  description = "The subnets to deploy private resources into."
+}
+
+variable "public_subnet_names" {
+  type        = string
+  description = "The subnets to deploy public resources into."
 }

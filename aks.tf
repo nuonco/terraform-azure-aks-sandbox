@@ -30,19 +30,19 @@ module "aks" {
   enable_auto_scaling    = true
   enable_host_encryption = false
 
-  green_field_application_gateway_for_ingress = {
-    name        = "ingress"
-    subnet_cidr = local.appgw_cidr
-  }
-  create_role_assignments_for_application_gateway = true
-  local_account_disabled                          = false
-  log_analytics_workspace_enabled                 = false
-  net_profile_dns_service_ip                      = local.dns_service_ip
-  net_profile_service_cidr                        = local.service_cidr
-  network_plugin                                  = "azure"
-  network_policy                                  = "azure"
-  os_disk_size_gb                                 = 60
-  private_cluster_enabled                         = false
+  # green_field_application_gateway_for_ingress = {
+  #   name        = "ingress"
+  #   subnet_cidr = local.appgw_cidr
+  # }
+  # create_role_assignments_for_application_gateway = true
+  local_account_disabled          = false
+  log_analytics_workspace_enabled = false
+  net_profile_dns_service_ip      = local.dns_service_ip
+  net_profile_service_cidr        = local.service_cidr
+  network_plugin                  = "azure"
+  network_policy                  = "azure"
+  os_disk_size_gb                 = 60
+  private_cluster_enabled         = false
   # rbac_aad                                        = true
   # rbac_aad_managed                                = true
   # role_based_access_control_enabled = true

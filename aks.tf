@@ -59,6 +59,8 @@ module "aks" {
       name                        = "default"
       vm_size                     = var.vm_size
       node_count                  = var.node_count
+      min_count                   = 2
+      max_count                   = 4
       vnet_subnet_id              = data.azurerm_subnet.existing.id
       create_before_destroy       = true
       temporary_name_for_rotation = "${substr(var.nuon_id, 1, 7)}temp"

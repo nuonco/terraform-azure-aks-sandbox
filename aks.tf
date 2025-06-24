@@ -46,11 +46,12 @@ module "aks" {
   # rbac_aad                                        = true
   # rbac_aad_managed                                = true
   # role_based_access_control_enabled = true
-  sku_tier    = "Standard"
-  vnet_subnet = { id = data.azurerm_subnet.existing.id }
-  # attached_acr_id_map = {
-  #   "${azurerm_container_registry.acr.name}" = azurerm_container_registry.acr.id
-  # }
+  sku_tier                    = "Standard"
+  vnet_subnet                 = { id = data.azurerm_subnet.existing.id }
+  temporary_name_for_rotation = "${substr(var.nuon_id, 1, 7)}temp"
+  attached_acr_id_map = {
+    "${azurerm_container_registry.acr.name}" = azurerm_container_registry.acr.id
+  }
 
   node_pools = {
     "default" = {

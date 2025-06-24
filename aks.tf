@@ -8,11 +8,12 @@ module "aks" {
   kubernetes_version        = var.cluster_version
   automatic_channel_upgrade = "patch"
   # agents_availability_zones = length(local.azs) > 0 ? local.azs : null
-  agents_count     = null
-  agents_max_count = 2
-  agents_max_pods  = 100
-  agents_min_count = 1
-  agents_pool_name = "agents"
+  agents_count          = null
+  agents_max_count      = 2
+  agents_max_pods       = 100
+  agents_min_count      = 1
+  agents_pool_max_surge = 1
+  agents_pool_name      = "agents"
   agents_pool_linux_os_configs = [
     {
       transparent_huge_page_enabled = "always"

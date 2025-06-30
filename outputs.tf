@@ -1,10 +1,12 @@
-output "vpn" {
+output "vnet" {
   value = {
+    id         = data.azurerm_virtual_network.existing.id
     name       = data.azurerm_virtual_network.existing.name
     subnet_ids = [data.azurerm_subnet.existing.id]
   }
-  description = "A map of vpn attributes: name, subnet_ids."
+  description = "A map of vnet attributes: name, subnet_ids."
 }
+
 
 output "public_domain" {
   value = {

@@ -57,6 +57,7 @@ output "cluster" {
     "location"               = module.aks.location
     "kube_config_raw"        = nonsensitive(module.aks.kube_config_raw)
     "kube_admin_config_raw"  = nonsensitive(module.aks.kube_admin_config_raw)
+    host                     = nonsensitive(module.aks.host)
   }
   description = "A map of AKS cluster attributes: id, name, client_certificate, client_key, cluster_ca_certificate, cluster_fqdn, oidc_issuer_url, location, kube_config_raw, kube_admin_config_raw."
 }

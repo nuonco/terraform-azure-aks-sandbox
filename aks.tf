@@ -36,19 +36,20 @@ module "aks" {
   #   subnet_cidr = local.appgw_cidr
   # }
   # create_role_assignments_for_application_gateway = true
-  local_account_disabled          = false
-  log_analytics_workspace_enabled = false
-  net_profile_dns_service_ip      = local.dns_service_ip
-  net_profile_service_cidr        = local.service_cidr
-  network_plugin                  = "azure"
-  network_policy                  = "azure"
-  os_disk_size_gb                 = 60
-  private_cluster_enabled         = false
-  # rbac_aad                                        = true
-  # rbac_aad_managed                                = true
-  # role_based_access_control_enabled = true
-  sku_tier    = "Standard"
-  vnet_subnet = { id = data.azurerm_subnet.existing.id }
+  local_account_disabled            = false
+  log_analytics_workspace_enabled   = false
+  net_profile_dns_service_ip        = local.dns_service_ip
+  net_profile_service_cidr          = local.service_cidr
+  network_plugin                    = "azure"
+  network_policy                    = "azure"
+  os_disk_size_gb                   = 60
+  private_cluster_enabled           = false
+  role_based_access_control_enabled = true
+  rbac_aad                          = true
+  rbac_aad_azure_rbac_enabled       = true
+  rbac_aad_tenant_id                = data.azurerm_client_config.current.tenant_id
+  sku_tier                          = "Standard"
+  vnet_subnet                       = { id = data.azurerm_subnet.existing.id }
   attached_acr_id_map = {
     "${azurerm_container_registry.acr.name}" = azurerm_container_registry.acr.id
   }

@@ -12,7 +12,8 @@ resource "azurerm_container_registry_scope_map" "acr" {
   resource_group_name     = data.azurerm_resource_group.rg.name
   actions = [
     "repositories/${var.nuon_id}/content/read",
-    "repositories/${var.nuon_id}/content/write"
+    "repositories/${var.nuon_id}/content/write",
+    "repositories/${var.nuon_id}/metadata/read",
   ]
 }
 

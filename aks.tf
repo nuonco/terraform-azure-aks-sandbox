@@ -1,21 +1,19 @@
-locals {
-  runner_vm_size = "Standard_D2s_v3"
-}
-
 module "aks" {
-  source  = "Azure/aks/azurerm"
-  version = "~> 9.1.0"
+  source  = "Azure/aks/azurerm//v4"
+  version = "~> 10.1.0"
 
+  location                  = var.location
   prefix                    = var.nuon_id
-  resource_group_name       = azurerm_resource_group.rg.name
+  resource_group_name       = data.azurerm_resource_group.rg.name
   kubernetes_version        = var.cluster_version
   automatic_channel_upgrade = "patch"
-  agents_availability_zones = length(local.azs) > 0 ? local.azs : null
-  agents_count              = null
-  agents_max_count          = 2
-  agents_max_pods           = 100
-  agents_min_count          = 1
-  agents_pool_name          = "agents"
+  # agents_availability_zones = length(local.azs) > 0 ? local.azs : null
+  agents_count          = null
+  agents_max_count      = 2
+  agents_max_pods       = 100
+  agents_min_count      = 1
+  agents_pool_max_surge = 1
+  agents_pool_name      = "agents"
   agents_pool_linux_os_configs = [
     {
       transparent_huge_page_enabled = "always"
@@ -33,48 +31,40 @@ module "aks" {
   enable_auto_scaling    = true
   enable_host_encryption = false
 
-  green_field_application_gateway_for_ingress = {
-    name        = "ingress"
-    subnet_cidr = local.appgw_cidr
-  }
-  create_role_assignments_for_application_gateway = true
-  local_account_disabled                          = false
-  log_analytics_workspace_enabled                 = false
-  net_profile_dns_service_ip                      = local.dns_service_ip
-  net_profile_service_cidr                        = local.service_cidr
-  network_plugin                                  = "azure"
-  network_policy                                  = "azure"
-  os_disk_size_gb                                 = 60
-  private_cluster_enabled                         = false
-  rbac_aad                                        = true
-  rbac_aad_managed                                = true
-  role_based_access_control_enabled               = true
-  sku_tier                                        = "Standard"
-  vnet_subnet_id                                  = module.network.vnet_subnets[0]
-  temporary_name_for_rotation                     = "${substr(var.nuon_id, 1, 7)}temp"
+  # green_field_application_gateway_for_ingress = {
+  #   name        = "ingress"
+  #   subnet_cidr = local.appgw_cidr
+  # }
+  # create_role_assignments_for_application_gateway = true
+  local_account_disabled            = false
+  log_analytics_workspace_enabled   = false
+  net_profile_dns_service_ip        = local.dns_service_ip
+  net_profile_service_cidr          = local.service_cidr
+  network_plugin                    = "azure"
+  network_policy                    = "azure"
+  os_disk_size_gb                   = 60
+  oidc_issuer_enabled               = true
+  private_cluster_enabled           = false
+  role_based_access_control_enabled = true
+  rbac_aad                          = true
+  rbac_aad_azure_rbac_enabled       = true
+  rbac_aad_tenant_id                = data.azurerm_client_config.current.tenant_id
+  sku_tier                          = "Standard"
+  vnet_subnet                       = { id = data.azurerm_subnet.existing.id }
   attached_acr_id_map = {
     "${azurerm_container_registry.acr.name}" = azurerm_container_registry.acr.id
   }
 
   node_pools = {
-    "runner" = {
-      name                  = "runner"
-      vm_size               = local.runner_vm_size
-      node_count            = 1
-      vnet_subnet_id        = module.network.vnet_subnets[0]
-      create_before_destroy = true
-    }
     "default" = {
-      name                  = "default"
-      vm_size               = var.vm_size
-      node_count            = var.node_count
-      vnet_subnet_id        = module.network.vnet_subnets[0]
-      create_before_destroy = true
+      name                        = "default"
+      vm_size                     = var.vm_size
+      enable_auto_scaling         = true
+      min_count                   = 2
+      max_count                   = 4
+      vnet_subnet_id              = data.azurerm_subnet.existing.id
+      create_before_destroy       = true
+      temporary_name_for_rotation = "${substr(var.nuon_id, 1, 7)}temp"
     }
   }
-
-  depends_on = [
-    module.network,
-    azurerm_user_assigned_identity.runner
-  ]
 }

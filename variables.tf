@@ -22,12 +22,12 @@ variable "public_root_domain" {
 variable "cluster_version" {
   type        = string
   description = "The Kubernetes version to use for the AKS cluster."
-  default     = "1.28"
+  default     = "1.33"
 }
 
 variable "vm_size" {
   type        = string
-  default     = "Standard_D2_v2"
+  default     = "standard_d2_v4"
   description = "The image size."
 }
 
@@ -35,4 +35,24 @@ variable "node_count" {
   type        = number
   default     = 2
   description = "The minimum number of nodes in the managed node pool."
+}
+
+variable "vnet_name" {
+  type        = string
+  description = "The name of the existing Virtual Network created by Bicep."
+}
+
+variable "resource_group_name" {
+  type        = string
+  description = "The resource group name where the existing Virtual Network is located."
+}
+
+variable "private_subnet_names" {
+  type        = string
+  description = "The subnets to deploy private resources into."
+}
+
+variable "public_subnet_names" {
+  type        = string
+  description = "The subnets to deploy public resources into."
 }

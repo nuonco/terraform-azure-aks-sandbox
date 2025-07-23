@@ -1,20 +1,12 @@
-output "runner" {
+output "vnet" {
   value = {
-    id           = azurerm_user_assigned_identity.runner.id
-    tenant_id    = azurerm_user_assigned_identity.runner.tenant_id
-    client_id    = azurerm_user_assigned_identity.runner.client_id
-    principal_id = azurerm_user_assigned_identity.runner.principal_id
+    id         = data.azurerm_virtual_network.existing.id
+    name       = data.azurerm_virtual_network.existing.name
+    subnet_ids = [data.azurerm_subnet.existing.id]
   }
-  description = "A map of runner attributes: id, tenant_id, client_id, principal_id."
+  description = "A map of vnet attributes: name, subnet_ids."
 }
 
-output "vpn" {
-  value = {
-    name       = module.network.vnet_name
-    subnet_ids = module.network.vnet_subnets
-  }
-  description = "A map of vpn attributes: name, subnet_ids."
-}
 
 output "public_domain" {
   value = {
@@ -39,7 +31,7 @@ output "account" {
     "location"            = var.location
     "subscription_id"     = data.azurerm_client_config.current.subscription_id
     "client_id"           = data.azurerm_client_config.current.client_id
-    "resource_group_name" = azurerm_resource_group.rg.name
+    "resource_group_name" = data.azurerm_resource_group.rg.name
   }
   description = "A map of Azure account attributes: location, subscription_id, client_id, resource_group_name."
 }
@@ -67,6 +59,7 @@ output "cluster" {
     "location"               = module.aks.location
     "kube_config_raw"        = nonsensitive(module.aks.kube_config_raw)
     "kube_admin_config_raw"  = nonsensitive(module.aks.kube_admin_config_raw)
+    host                     = nonsensitive(module.aks.host)
   }
   description = "A map of AKS cluster attributes: id, name, client_certificate, client_key, cluster_ca_certificate, cluster_fqdn, oidc_issuer_url, location, kube_config_raw, kube_admin_config_raw."
 }

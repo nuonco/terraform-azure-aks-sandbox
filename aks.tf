@@ -31,10 +31,10 @@ module "aks" {
   enable_auto_scaling    = true
   enable_host_encryption = false
 
-  # green_field_application_gateway_for_ingress = {
-  #   name        = "ingress"
-  #   subnet_cidr = local.appgw_cidr
-  # }
+  green_field_application_gateway_for_ingress = {
+    name        = "ingress"
+    subnet_cidr = local.appgw_cidr
+  }
   # create_role_assignments_for_application_gateway = true
   local_account_disabled            = false
   log_analytics_workspace_enabled   = false

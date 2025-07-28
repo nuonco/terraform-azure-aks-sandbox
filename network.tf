@@ -1,6 +1,6 @@
 locals {
   // app and services
-  appgw_cidr     = "10.2.0.0/24"
+  appgw_cidr     = "10.128.2.0/24"
   service_cidr   = "10.2.1.0/24"
   dns_service_ip = "10.2.1.10"
 }

@@ -39,7 +39,7 @@ module "aks" {
   }
   key_vault_secrets_provider_enabled = true
   # create_role_assignments_for_application_gateway = true
-  local_account_disabled            = false
+  local_account_disabled            = true
   log_analytics_workspace_enabled   = false
   net_profile_dns_service_ip        = local.dns_service_ip
   net_profile_service_cidr          = local.service_cidr

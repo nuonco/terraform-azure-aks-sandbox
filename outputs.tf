@@ -41,10 +41,8 @@ output "acr" {
     id           = azurerm_container_registry.acr.id
     name         = azurerm_container_registry.acr.name
     login_server = azurerm_container_registry.acr.login_server
-    token_id     = azurerm_container_registry_token.runner.id
-    password     = nonsensitive(azurerm_container_registry_token_password.runner.password1[0].value)
   }
-  description = "A map of ACR attributes: id, login_server, token_id, password."
+  description = "A map of ACR attributes: id, login_server."
 }
 
 output "cluster" {
